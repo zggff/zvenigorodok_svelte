@@ -3,7 +3,7 @@ import adapter from '@sveltejs/adapter-static';
 // import vercel from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
 
-const dev = "production" === "development";
+// const dev = true
 
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
@@ -12,11 +12,12 @@ const config = {
 
 	kit: {
 		adapter: adapter({
-            pages: "docs",
-            assets: "docs"
+            pages: "build",
+            assets: "build",
+            fallback: null
         }),
         paths: {
-            base: dev ? "/" : "/zvenigorodok",
+            base: "/zvenigorodok",
         },
         
 	}

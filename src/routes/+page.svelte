@@ -2,13 +2,10 @@
     import Map from "$lib/Map.svelte";
 </script>
 
-<svelte:head>
-    <title>home</title>
-</svelte:head>
 <main>
     <div class="content">
         <h1>
-            <img src="logo.svg" alt="ЗвенигородОк" />
+            <img src="zvenigorodok/logo.svg" alt="ЗвенигородОк" />
         </h1>
         <p1>Сезонный шиномонтаж для вашего удобства</p1>
         <p>Без очередей и стресса!</p>
@@ -20,7 +17,7 @@
                 <Map ref="map" />
             </div>
             <div class="certificate">
-                <img src="certificate.png" alt="Сертификат" />
+                <img src="zvenigorodok/certificate.png" alt="Сертификат" />
             </div>
         </div>
         <p>Оборудование: Hoffman</p>
@@ -29,9 +26,6 @@
 </main>
 
 <style lang="scss">
-    :global(body) {
-        background-color: whitesmoke;
-    }
     :global([ref="map"]) {
         max-width: 600px;
         width: 600px;
