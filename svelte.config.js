@@ -16,6 +16,7 @@ const config = {
             assets: "docs"
         }),
         paths: {
+            base: dev ? "/" : "/zvenigorodok",
         },
         
 	}
