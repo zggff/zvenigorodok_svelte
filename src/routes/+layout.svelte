@@ -11,7 +11,7 @@
 </div>
 
 <style lang="scss">
-    .main {
+    :global(body) {
         background-color: whitesmoke;
     }
 </style>

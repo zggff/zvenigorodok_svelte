@@ -27,7 +27,9 @@
 
 <style lang="scss">
     :global([ref="map"]) {
-        max-width: 600px;
+        /* max-width: 600px; */
+        max-width: 100hw;
+
         width: 600px;
         height: 600px;
         margin-bottom: 10px;
@@ -58,8 +60,6 @@
             }
         }
         .certificate {
-            width: 50%;
-
             img {
                 height: 600px;
             }
