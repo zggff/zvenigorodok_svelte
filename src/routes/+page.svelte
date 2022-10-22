@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Map from "../Map.svelte";
+    import Map from "$lib/Map.svelte";
 </script>
 
 <svelte:head>
@@ -18,13 +18,13 @@
         <div class="split">
             <div>
                 <Map ref="map" />
-                <p>оборудование Hoffman</p>
-                <p>расходные материалы Reme Tip-Top</p>
             </div>
             <div class="certificate">
                 <img src="certificate.png" alt="Сертификат" />
             </div>
         </div>
+        <p>Оборудование: Hoffman</p>
+        <p>Расходные материалы: Reme Tip-Top</p>
     </div>
 </main>
 
@@ -34,8 +34,9 @@
     }
     :global([ref="map"]) {
         max-width: 600px;
-        width: 90%;
-        height: 500px;
+        width: 600px;
+        height: 600px;
+        margin-bottom: 10px;
     }
 
     .content {
@@ -54,6 +55,7 @@
 
         .split {
             font-size: 30px;
+            gap: 20px;
             display: flex;
             flex-grow: 2;
             flex-direction: row;
@@ -65,7 +67,7 @@
             width: 50%;
 
             img {
-                height: 60vh;
+                height: 600px;
             }
         }
     }

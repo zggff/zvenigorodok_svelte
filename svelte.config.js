@@ -1,4 +1,6 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-static';
+// import adapter from '@sveltejs/adapter-auto';
+// import vercel from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -8,7 +10,16 @@ const config = {
 	preprocess: preprocess(),
 
 	kit: {
-		adapter: adapter()
+		adapter: adapter({
+            pages: "docs",
+            assets: "docs"
+        }),
+        // adapter: vercel({
+        //   edge: false,
+        //   external: [],
+        //   split: false
+        // })
+
 	}
 };
 
