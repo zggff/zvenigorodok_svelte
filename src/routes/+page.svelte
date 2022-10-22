@@ -5,7 +5,7 @@
 <main>
     <div class="content">
         <h1>
-            <img src="zvenigorodok/logo.svg" alt="ЗвенигородОк" />
+            <img src="logo.svg" alt="ЗвенигородОк" />
         </h1>
         <p1>Сезонный шиномонтаж для вашего удобства</p1>
         <p>Без очередей и стресса!</p>
@@ -17,7 +17,7 @@
                 <Map ref="map" />
             </div>
             <div class="certificate">
-                <img src="zvenigorodok/certificate.png" alt="Сертификат" />
+                <img src="certificate.png" alt="Сертификат" />
             </div>
         </div>
         <p>Оборудование: Hoffman</p>

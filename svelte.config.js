@@ -1,6 +1,4 @@
 import adapter from '@sveltejs/adapter-static';
-// import adapter from '@sveltejs/adapter-auto';
-// import vercel from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
 
 // const dev = true
@@ -17,7 +15,7 @@ const config = {
             fallback: null
         }),
         paths: {
-            base: "/zvenigorodok",
+            base: "",
         },
         
 	}
