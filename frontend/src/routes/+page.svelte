@@ -10,6 +10,7 @@
         <h2>Сезонный шиномонтаж для вашего удобства</h2>
         <p>Без очередей и стресса!</p>
         <p>Только по записи:<br />+7(916)-683-46-38</p>
+        <p>c 8:00 до 22:00 без выходных</p>
 
         <div class="split">
             <div>
@@ -19,14 +20,15 @@
                 <img src="certificate.png" alt="Сертификат" />
             </div>
         </div>
-        <p>Оборудование: Hoffman</p>
-        <p>Расходные материалы: Reme Tip-Top</p>
+        <p>Оборудование: Hofmann</p>
+        <p>Расходные материалы: Clipper, Rema Tip-Top</p>
+        <!-- TODO:responses  -->
+        <!-- TODO:flyer  -->
     </div>
 </main>
 
 <style lang="scss">
     :global([ref="map"]) {
-        /* max-width: 600px; */
         max-width: 100hw;
 
         width: 600px;

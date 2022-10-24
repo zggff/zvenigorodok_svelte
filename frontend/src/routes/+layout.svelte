@@ -1,7 +1,10 @@
 <svelte:head>
     <title>звенигородок</title>
     <meta charset="UTF-8" />
-    <meta name="keywords" content="Звенигород, шиномонтаж" />
+    <meta
+        name="keywords"
+        content="Звенигород, шиномонтаж, запись, zvenigorodok, звенигородок"
+    />
     <meta name="description" content="шиномонтаж в Звенигороде" />
     <meta name="author" content="Maxim Giga <github.com/zggff>" />
 </svelte:head>
