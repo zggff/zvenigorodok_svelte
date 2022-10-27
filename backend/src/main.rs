@@ -1,6 +1,8 @@
+use actix_cors::Cors;
 use actix_web::{middleware::Logger, web, App, HttpResponse, HttpServer, Responder};
 use futures::stream::StreamExt;
-use mongodb::Client;
+use mongodb::bson::serde_helpers::bson_datetime_as_rfc3339_string;
+use mongodb::{bson::DateTime, Client};
 use serde::{Deserialize, Serialize};
 use std::error::Error;
 
@@ -11,6 +13,8 @@ const COLL_NAME: &str = "reviews";
 struct Review {
     text: String,
     user: String,
+    #[serde(with = "bson_datetime_as_rfc3339_string")]
+    date: DateTime,
 }
 
 #[actix_web::get("/get_reviews")]
@@ -51,12 +55,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     HttpServer::new(move || {
         let static_directory = static_directory.clone();
+        let cors = Cors::permissive();
+
         App::new()
             .app_data(web::Data::new(client.clone()))
             .service(get_reviews)
             .service(add_review)
             .service(actix_files::Files::new("/", static_directory).index_file("index.html"))
             .wrap(Logger::new("%a %{User-Agent}i"))
+            .wrap(cors)
     })
     .bind(("127.0.0.1", 8080))?
     .run()

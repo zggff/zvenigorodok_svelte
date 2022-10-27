@@ -1,5 +1,6 @@
 <script lang="ts">
     import Map from "$lib/Map.svelte";
+    import Reviews from "$lib/Reviews.svelte";
 </script>
 
 <main>
@@ -22,7 +23,7 @@
         </div>
         <p>Оборудование: Hofmann</p>
         <p>Расходные материалы: Clipper, Rema Tip-Top</p>
-        <!-- TODO:responses  -->
+        <Reviews />
     </div>
 </main>
 
