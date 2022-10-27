@@ -464,6 +464,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+batch-processor@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/batch-processor/-/batch-processor-1.0.0.tgz#75c95c32b748e0850d10c2b168f6bdbe9891ace8"
+  integrity sha512-xoLQD8gmmR32MeuBHgH0Tzd5PuSZx71ZsbhVxOCRbgktZEPe4SQy7s9Z50uPp0F/f7iw2XmkHN2xkgbMfckMDA==
+
 binary-extensions@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
@@ -637,6 +642,13 @@ doctrine@^3.0.0:
   integrity sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
   dependencies:
     esutils "^2.0.2"
+
+element-resize-detector@^1.1:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/element-resize-detector/-/element-resize-detector-1.2.4.tgz#3e6c5982dd77508b5fa7e6d5c02170e26325c9b1"
+  integrity sha512-Fl5Ftk6WwXE0wqCgNoseKWndjzZlDCwuPTcoVZfCP9R3EHQF8qUtr3YUPNETegRBOKqQKPW3n4kiIWngGi8tKg==
+  dependencies:
+    batch-processor "1.0.0"
 
 email-addresses@^3.0.1:
   version "3.1.0"
@@ -1950,6 +1962,13 @@ svelte-sitemap@^2.5.2:
     fast-glob "^3.2.12"
     minimist "^1.2.6"
     xmlbuilder2 "^3.0.2"
+
+svelte-watch-resize@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/svelte-watch-resize/-/svelte-watch-resize-1.0.3.tgz#8cf78ac2e3142ec5f1e88cc06aea13a6bc07b1b3"
+  integrity sha512-ktqTnkdqfx4YRqeMJcX1jeSnQ2kJUVlj4/rLdaLbhM+RrxN87vS2EZ0cxlGZ7eXV86Ef05Q3dVqEiR+12PeoIw==
+  dependencies:
+    element-resize-detector "^1.1"
 
 svelte@^3.44.0:
   version "3.52.0"

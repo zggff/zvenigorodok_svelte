@@ -29,10 +29,20 @@
 
 <style lang="scss">
     :global([ref="map"]) {
-        max-width: 100hw;
-
-        width: 600px;
+        @media screen and (max-width: 800px) {
+            width: 90vw;
+        }
+        @media screen and (min-width: 800px) {
+            width: 400px;
+        }
+        @media screen and (min-width: 1100px) {
+            width: 600px;
+        }
+        /* max-width: 100hw; */
+        /* width: 600px; */
         height: 600px;
+        /* width: 100%; */
+        max-width: 600px;
         margin-bottom: 10px;
     }
 
@@ -54,7 +64,7 @@
             font-size: 30px;
             gap: 20px;
             display: flex;
-            flex-grow: 2;
+            flex-grow: 1;
             flex-direction: row;
             @media screen and (max-width: 800px) {
                 display: block;
@@ -62,7 +72,11 @@
         }
         .certificate {
             img {
+                border-radius: 10px;
                 height: 600px;
+                @media screen and (max-width: 800px) {
+                    width: 600px;
+                }
             }
         }
     }

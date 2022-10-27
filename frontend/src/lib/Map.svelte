@@ -1,10 +1,11 @@
 <script>
     export let ref;
     let map_loaded = false;
+    let myMap;
     let center = [55.746309, 36.878061];
 
     const loadMap = () => {
-        let myMap = new ymaps.Map("map", {
+        myMap = new ymaps.Map("map", {
             center: center,
             zoom: 16,
         });

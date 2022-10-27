@@ -7,39 +7,61 @@
 </script>
 
 <script lang="ts">
-    import { USER } from "$env/static/private";
+    import { dev } from "$app/environment";
+
     import { onMount } from "svelte";
+    let address: string = dev ? "http://localhost:8080" : "";
 
     let reviews: Review[];
     let reviews_loaded = false;
-    let show_reviews = true;
+    let show_reviews = false;
     const get_reviews = async () => {
-        fetch("http://localhost:8080/get_reviews")
+        fetch(`${address}/get_reviews`)
             .then((response) => response.json())
             .then((data: Review[]) => {
                 data.forEach((review) => (review.date = new Date(review.date)));
+                data.sort((a, b) => b.date.getTime() - a.date.getTime());
                 reviews = data;
                 reviews_loaded = true;
             });
     };
 
+    let error_text: string = "";
+
     let review: Review = {
-        user: "Ваше имя",
-        text: "Введите текст отзыва",
+        user: "",
+        text: "",
         date: new Date(),
     };
 
     const add_review = async () => {
+        if (review.text.length == 0) {
+            error_text = "текст отзыва не может быть пустым";
+            return;
+        }
+        if (review.user.length == 0) {
+            error_text = "имя пользователя не может быть пустым";
+            return;
+        }
+        error_text = "";
         review.date = new Date();
 
-        const res = await fetch("http://localhost:8080/add_review", {
+        await fetch(`${address}add_review`, {
             method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(review),
-        });
+        })
+            .then(async () => {
+                review.text = "";
+                review.user = "";
+                await get_reviews();
+            })
+            .catch(() => {
+                error_text = "не удалось добавить отзыв";
+            });
     };
 
     onMount(get_reviews);
@@ -47,25 +69,38 @@
 
 <main>
     <button
+        class="input"
         on:click={() => {
             show_reviews = !show_reviews;
-        }}>Показать отзывы</button
-    >
+        }}
+        >Показать отзывы
+    </button>
     {#if show_reviews}
         <div class="review_pane">
-            <input bind:value={review.user} />
-            <textarea bind:value={review.text} />
-            <button on:click={add_review}>оставить отзыв</button>
+            <input
+                class="input"
+                placeholder="Введите имя"
+                bind:value={review.user}
+            />
+            <textarea
+                class="input"
+                placeholder="Введите текст отзыва"
+                bind:value={review.text}
+            />
+            <button class="input" on:click={add_review}>оставить отзыв</button>
+            {#if error_text != ""}
+                <b class="error">{error_text}</b>
+            {/if}
         </div>
         {#if reviews_loaded}
             <ul>
                 {#each reviews as review}
                     <li>
-                        <h4>
-                            {review.user} on {review.date.toLocaleString(
+                        <b>
+                            {review.user} ({review.date.toLocaleDateString(
                                 "ru-RU"
-                            )}
-                        </h4>
+                            )})
+                        </b>
                         <p>{review.text}</p>
                     </li>
                 {/each}
@@ -75,4 +110,61 @@
 </main>
 
 <style lang="scss">
+    button {
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    .input {
+        font-size: 1.2rem;
+        border-radius: 5px;
+        min-height: 2rem;
+        border: none;
+        padding: 10px;
+        background-color: white;
+    }
+    .review_pane {
+        display: grid;
+        gap: 5px;
+        grid-template-areas:
+            "textarea textarea textarea input"
+            "textarea textarea textarea button"
+            "error error error error";
+        margin-bottom: 2rem;
+        input {
+            border: none;
+            height: 2rem;
+            grid-area: input;
+        }
+        textarea {
+            resize: none;
+            min-height: 6rem;
+            grid-area: textarea;
+        }
+        button {
+            margin-top: auto;
+            margin-bottom: 0;
+            grid-area: button;
+        }
+        .error {
+            grid-area: error;
+            color: red;
+            font-size: 1.3rem;
+        }
+    }
+    ul {
+        padding: 0;
+        margin: 0;
+        font-size: 1.5rem;
+        li {
+            p {
+                padding: 0;
+                margin-bottom: 0;
+            }
+            margin-bottom: 1rem;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            list-style-type: "";
+        }
+    }
 </style>
