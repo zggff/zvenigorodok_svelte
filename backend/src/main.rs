@@ -54,12 +54,18 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let coll_name = std::env::var("COLL_NAME").unwrap_or("reviews".into());
     let db_name = std::env::var("DB_NAME").unwrap_or("zvenigorodok".into());
     let collection: mongodb::Collection<Review> = client.database(&db_name).collection(&coll_name);
+    let port = match std::env::var("PORT") {
+        Ok(port) => port.parse().unwrap_or(8080),
+        _ => 8080,
+    };
 
     HttpServer::new(move || {
         let cors = if is_dev {
             Cors::permissive()
         } else {
             Cors::default()
+                .allow_any_origin()
+                .allowed_methods(vec!["GET", "POST"])
         };
         let files = actix_files::Files::new("/", static_directory.clone()).index_file("index.html");
 
@@ -71,7 +77,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .wrap(Logger::new("%a %{User-Agent}i"))
             .wrap(cors)
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("127.0.0.1", port))?
     .run()
     .await?;
     Ok(())
