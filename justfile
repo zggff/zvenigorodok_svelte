@@ -8,6 +8,7 @@ build:
     cross build --target x86_64-unknown-linux-gnu --release
 
     cd ..
+    rm -rf release
     mkdir release
     cp -r frontend/build release/public
     cp backend/target/x86_64-unknown-linux-gnu/release/backend release/backend

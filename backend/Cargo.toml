@@ -8,10 +8,12 @@ edition = "2021"
 [dependencies]
 actix-cors = "0.6.3"
 actix-files = "0.6.2"
-actix-web = "4.2.1"
+actix-web = { version = "4.2.1", features = ["rustls"] }
 dotenv = "0.15.0"
 env_logger = "0.9.1"
 futures = "0.3.25"
 log = "0.4.17"
 mongodb = "2.3.1"
 serde = { version = "1", features = ["derive"] }
+rustls = "0.20.7"
+rustls-pemfile = "1"
