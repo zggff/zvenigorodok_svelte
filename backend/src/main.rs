@@ -88,6 +88,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     if let (Ok(ssl_key), Ok(ssl_cert)) = (ssl_key, ssl_cert) {
         let config = load_rustls_config(&ssl_cert, &ssl_key);
         server
+            .bind((ip.clone(), port))?
             .bind_rustls(format!("{ip}:443"), config)?
             .run()
             .await?;
