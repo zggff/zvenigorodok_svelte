@@ -47,7 +47,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv()?;
     env_logger::init();
 
-    let static_directory = std::env::var("STATIC_DIR").unwrap_or(".".into());
+    let static_directory = std::env::var("STATIC_DIR").unwrap_or("./public".into());
     let uri = std::env::var("MONGODB_URI").unwrap_or("mongodb://localhost:27017".into());
     let client = Client::with_uri_str(uri).await?;
     let is_dev = std::env::var("DEV").is_ok();
@@ -58,6 +58,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         Ok(port) => port.parse().unwrap_or(8080),
         _ => 8080,
     };
+    let ip = std::env::var("IP").unwrap_or("0.0.0.0".into());
 
     HttpServer::new(move || {
         let cors = if is_dev {
@@ -77,7 +78,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .wrap(Logger::new("%a %{User-Agent}i"))
             .wrap(cors)
     })
-    .bind(("127.0.0.1", port))?
+    .bind((ip, port))?
     .run()
     .await?;
     Ok(())
