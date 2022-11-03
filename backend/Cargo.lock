@@ -329,10 +329,12 @@ version = "0.1.0"
 dependencies = [
  "actix-cors",
  "actix-files",
+ "actix-service",
  "actix-web",
  "dotenv",
  "env_logger",
  "futures",
+ "futures-util",
  "log",
  "mongodb",
  "rustls",

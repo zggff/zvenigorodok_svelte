@@ -9,6 +9,9 @@ use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::fs::File;
 use std::io::BufReader;
+
+mod cache;
+
 #[derive(Debug, Serialize, Deserialize)]
 struct Review {
     text: String,
@@ -74,13 +77,15 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 .allow_any_origin()
                 .allowed_methods(vec!["GET", "POST"])
         };
-        let files = actix_files::Files::new("/", static_directory.clone()).index_file("index.html");
+        let files = actix_files::Files::new("/", static_directory.clone())
+            .index_file("index.html")
+            .use_last_modified(true);
 
         App::new()
             .app_data(web::Data::new(collection.clone()))
             .service(get_reviews)
             .service(add_review)
-            .service(files)
+            .service(web::scope("").wrap(cache::CacheInterceptor).service(files))
             .wrap(Logger::new("%a %{User-Agent}i"))
             .wrap(cors)
     });
