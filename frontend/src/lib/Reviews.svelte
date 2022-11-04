@@ -1,22 +1,25 @@
 <script lang="ts" context="module">
-    interface Review {
+    export interface Review {
         user: string;
         text: string;
         date: Date;
+        target: Target;
     }
+    type Target = "Tyres" | "Cleaning" | "HomeMaster";
 </script>
 
 <script lang="ts">
     import { dev } from "$app/environment";
-
     import { onMount } from "svelte";
-    let address: string = dev ? "http://localhost:8080" : "";
+    const address: string = dev ? "http://localhost:8080" : "";
+
+    export let target: Target;
 
     let reviews: Review[];
     let reviews_loaded = false;
     let show_reviews = false;
     const get_reviews = async () => {
-        fetch(`${address}/get_reviews`)
+        fetch(`${address}/get_reviews?target=${target.toString()}`)
             .then((response) => response.json())
             .then((data: Review[]) => {
                 data.forEach((review) => (review.date = new Date(review.date)));
@@ -27,13 +30,12 @@
     };
 
     let error_text: string = "";
-
     let review: Review = {
         user: "",
         text: "",
         date: new Date(),
+        target,
     };
-
     const add_review = async () => {
         if (review.text.length == 0) {
             error_text = "текст отзыва не может быть пустым";
@@ -45,7 +47,6 @@
         }
         error_text = "";
         review.date = new Date();
-
         await fetch(`${address}add_review`, {
             method: "POST",
             mode: "cors",
@@ -115,10 +116,14 @@
         margin-bottom: 2rem;
     }
     .input {
-        font-size: 1.2rem;
+        border: 1px solid transparent;
+
+        &:hover {
+            border: 1px solid red;
+        }
+        font-size: 1.1rem;
         border-radius: 5px;
         min-height: 2rem;
-        border: none;
         padding: 10px;
         background-color: white;
     }
@@ -148,13 +153,13 @@
         .error {
             grid-area: error;
             color: red;
-            font-size: 1.3rem;
+            font-size: 1rem;
         }
     }
     ul {
         padding: 0;
         margin: 0;
-        font-size: 1.5rem;
+        font-size: 1rem;
         li {
             p {
                 padding: 0;

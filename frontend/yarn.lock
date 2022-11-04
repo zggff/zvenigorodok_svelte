@@ -1930,6 +1930,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+svelte-awesome@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/svelte-awesome/-/svelte-awesome-3.0.0.tgz#50581a26b140c5baed34e20421284ac1c2e7e85e"
+  integrity sha512-jfK+vc7f2kTFbBCk3dR1C3JA72cugh5bZHILc0gHbaSC3f1PkwPpA4OwpCRCT1Zf0hv6oaSZKxR8V2m1SKHj3Q==
+
 svelte-check@^2.7.1:
   version "2.9.2"
   resolved "https://registry.yarnpkg.com/svelte-check/-/svelte-check-2.9.2.tgz#6581b750aa51cf476e82139a674a9bfa4de2ec2d"
@@ -1953,11 +1958,6 @@ svelte-hmr@^0.15.0:
   version "0.15.0"
   resolved "https://registry.yarnpkg.com/svelte-hmr/-/svelte-hmr-0.15.0.tgz#c8304b5dd33f006415329d91470761d19417a324"
   integrity sha512-Aw21SsyoohyVn4yiKXWPNCSW2DQNH/76kvUnE9kpt4h9hcg9tfyQc6xshx9hzgMfGF0kVx0EGD8oBMWSnATeOg==
-
-svelte-kit@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/svelte-kit/-/svelte-kit-1.0.0.tgz#bd23e5429cf6a8b7d33a2016f5e7b19f01e9ce38"
-  integrity sha512-pIY5PHrdpqt5Py4nkv3BCqbrTyYH61pgCVykPf3JuCeryvn/pO88ltDGFZq0cRkrSmfKHlpC+uM018SZ8I2h4A==
 
 svelte-preprocess@^4.0.0, svelte-preprocess@^4.10.6:
   version "4.10.7"
