@@ -1,6 +1,9 @@
 use actix_cors::Cors;
+use actix_web::web::Query;
 use actix_web::{middleware::Logger, web, App, HttpResponse, HttpServer, Responder};
 use futures::stream::StreamExt;
+use mongodb::bson;
+use mongodb::bson::doc;
 use mongodb::bson::serde_helpers::bson_datetime_as_rfc3339_string;
 use mongodb::{bson::DateTime, Client};
 use rustls::{Certificate, PrivateKey, ServerConfig};
@@ -13,16 +16,37 @@ use std::io::BufReader;
 mod cache;
 
 #[derive(Debug, Serialize, Deserialize)]
+pub enum ReviewTarget {
+    Tyres,
+    Cleaning,
+    HomeMaster,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 struct Review {
     text: String,
     user: String,
     #[serde(with = "bson_datetime_as_rfc3339_string")]
     date: DateTime,
+    target: ReviewTarget,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct GetReviewsQuery {
+    target: Option<ReviewTarget>,
 }
 
 #[actix_web::get("/get_reviews")]
-async fn get_reviews(collection: web::Data<mongodb::Collection<Review>>) -> impl Responder {
-    let cursor = collection.find(None, None).await;
+async fn get_reviews(
+    collection: web::Data<mongodb::Collection<Review>>,
+    query: Query<GetReviewsQuery>,
+) -> impl Responder {
+    let filter = query
+        .into_inner()
+        .target
+        .and_then(|target| bson::to_bson(&target).ok())
+        .map(|target| doc! {"target": target});
+    let cursor = collection.find(filter, None).await;
     match cursor {
         Ok(cursor) => {
             let reviews: Vec<Result<Review, _>> = cursor.collect().await;
@@ -79,6 +103,12 @@ async fn main() -> Result<(), Box<dyn Error>> {
         };
         let files = actix_files::Files::new("/", static_directory.clone())
             .index_file("index.html")
+            .default_handler(
+                actix_files::NamedFile::open(
+                    vec![static_directory.clone(), "index.html".to_string()].join("/"),
+                )
+                .expect("index file should exist"),
+            )
             .use_last_modified(true);
 
         App::new()
