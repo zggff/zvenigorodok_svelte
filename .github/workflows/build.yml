@@ -1,7 +1,9 @@
 name: Rust
 
 on:
-  workflow_dispatch 
+  workflow_dispatch:
+    inputs:
+      tag_name:
 
 env:
   CARGO_TERM_COLOR: always
@@ -38,7 +40,8 @@ jobs:
     - name: Release
       uses: softprops/action-gh-release@v1
       with:
-       files: |
-         ${{ env.ASSET_PATH }}
-      env:
-       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        tag_name: ${{github.event.inputs.tag_name}}
+        files: |
+          ${{ env.ASSET_PATH }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
