@@ -1,4 +1,4 @@
-name: Rust
+name: Release 
 
 on:
   workflow_dispatch:
@@ -11,14 +11,14 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    # - name: Build Rust
-    #   run: |
-    #     cd backend
-    #     cargo build  --release
+    - name: Build Rust
+      run: |
+        cd backend
+        cargo build  --release
     - name: Build Svelte
       run: |
         cd frontend
@@ -28,7 +28,7 @@ jobs:
       run: |
         src=$(pwd)
         stage=$(mktemp -d)
-        # cp ./backend/target/release/backend $stage/
+        cp ./backend/target/release/backend $stage/
         cp -r frontend/build $stage/public
         cd $stage
         ASSET_NAME="zvenigorodok.tar.gz"
