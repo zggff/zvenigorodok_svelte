@@ -159,7 +159,7 @@
     ul {
         padding: 0;
         margin: 0;
-        font-size: 1rem;
+        font-size: 1.3rem;
         li {
             p {
                 padding: 0;
