@@ -45,5 +45,5 @@ jobs:
         tag_name: ${{github.event.inputs.tag_name}}
         files: |
           ${{ env.ASSET_PATH }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
