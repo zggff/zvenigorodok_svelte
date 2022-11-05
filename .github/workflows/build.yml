@@ -18,13 +18,13 @@ jobs:
     - name: Build Rust
       run: |
         cd backend
-        cargo build  --release
+        cargo build --release
     - name: Build Svelte
       run: |
         cd frontend
         yarn
         yarn build
-    - name: Copy files
+    - name: Package Artifacts 
       run: |
         src=$(pwd)
         stage=$(mktemp -d)
