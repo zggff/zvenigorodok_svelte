@@ -7,7 +7,6 @@ on:
         required: true
         desctiption: 'release tag name'
 
-
 env:
   CARGO_TERM_COLOR: always
 
