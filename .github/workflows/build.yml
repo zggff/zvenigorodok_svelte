@@ -27,8 +27,7 @@ jobs:
         # cp ./backend/target/release/backend $stage/
         cp -r frontend/build $stage/public
         cd $stage
-        RELEASE_VERSION=${GITHUB_REF#refs/tags/}
-        ASSET_NAME="zvenigorodok-$RELEASE_VERSION.tar.gz"
+        ASSET_NAME="zvenigorodok.tar.gz"
         ASSET_PATH="$src/$ASSET_NAME"
         echo $RELEASE_VERSION
         echo $ASSET_NAME
