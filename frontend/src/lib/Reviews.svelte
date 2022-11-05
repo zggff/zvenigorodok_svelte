@@ -130,10 +130,11 @@
     .review_pane {
         display: grid;
         gap: 5px;
+        grid-template-columns: min(50%) max(50%);
         grid-template-areas:
-            "textarea textarea textarea input"
-            "textarea textarea textarea button"
-            "error error error error";
+            "textarea input"
+            "textarea button"
+            "error error";
         margin-bottom: 2rem;
         input {
             border: none;
@@ -141,6 +142,7 @@
             grid-area: input;
         }
         textarea {
+            // min-width: 60vw;
             resize: none;
             min-height: 6rem;
             grid-area: textarea;
