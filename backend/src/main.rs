@@ -1,4 +1,6 @@
 use actix_cors::Cors;
+use actix_files::NamedFile;
+use actix_web::dev::{ServiceRequest, ServiceResponse};
 use actix_web::web::Query;
 use actix_web::{middleware::Logger, web, App, HttpResponse, HttpServer, Responder};
 use futures::stream::StreamExt;
@@ -6,6 +8,7 @@ use mongodb::bson;
 use mongodb::bson::doc;
 use mongodb::bson::serde_helpers::bson_datetime_as_rfc3339_string;
 use mongodb::{bson::DateTime, Client};
+use once_cell::sync::OnceCell;
 use rustls::{Certificate, PrivateKey, ServerConfig};
 use rustls_pemfile::{certs, pkcs8_private_keys};
 use serde::{Deserialize, Serialize};
@@ -72,12 +75,16 @@ async fn add_review(
     }
 }
 
+static STATIC_DIRECTORY: OnceCell<String> = OnceCell::new();
+
 #[actix_web::main]
 async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::dotenv()?;
     env_logger::init();
 
-    let static_directory = std::env::var("STATIC_DIR").unwrap_or("./public".into());
+    STATIC_DIRECTORY
+        .set(std::env::var("STATIC_DIR").unwrap_or("./public".into()))
+        .expect("failed to set global variable");
     let uri = std::env::var("MONGODB_URI").unwrap_or("mongodb://localhost:27017".into());
     let client = Client::with_uri_str(uri).await?;
     let is_dev = std::env::var("DEV").is_ok();
@@ -101,14 +108,25 @@ async fn main() -> Result<(), Box<dyn Error>> {
                 .allow_any_origin()
                 .allowed_methods(vec!["GET", "POST"])
         };
-        let files = actix_files::Files::new("/", static_directory.clone())
+        let files = actix_files::Files::new("/", STATIC_DIRECTORY.get().unwrap())
             .index_file("index.html")
-            .default_handler(
-                actix_files::NamedFile::open(
-                    vec![static_directory.clone(), "index.html".to_string()].join("/"),
-                )
-                .expect("index file should exist"),
-            )
+            .default_handler(|req: ServiceRequest| {
+                let (http_req, _payload) = req.into_parts();
+                let path = format!(
+                    "{}/{}.html",
+                    STATIC_DIRECTORY.get().unwrap(),
+                    http_req.path().clone()
+                );
+                let index_path = format!("{}/index.html", STATIC_DIRECTORY.get().unwrap(),);
+                dbg!(&http_req.path());
+                async {
+                    let file = NamedFile::open(path).unwrap_or(
+                        actix_files::NamedFile::open(index_path).expect("index file must exist"),
+                    );
+                    let response = file.into_response(&http_req);
+                    Ok(ServiceResponse::new(http_req, response))
+                }
+            })
             .use_last_modified(true);
 
         App::new()
